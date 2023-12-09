@@ -43,5 +43,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Java artifact
-          path: target/bankbd-0.0.1-SNAPSHOT.jar
+          path: target/backend-0.0.1-SNAPSHOT.jar
 
