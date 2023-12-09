@@ -1,0 +1,47 @@
+name: Java pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: 3Z3RSxQwCuxIb0x8
+          MYSQL_DATABASE: bankbd
+        ports:
+          - 3306:3306
+
+
+    steps:
+      - name: Recuperation du code
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+          cache: maven
+
+      - name: Installation des dependances
+        run: mvn package
+
+      - name: Build du projet
+        run: mvn clean install -X
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Java artifact
+          path: target/bankbd-0.0.1-SNAPSHOT.jar
+
